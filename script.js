@@ -9,6 +9,32 @@ let score = 20;
 // highscore
 let highscore = 0;
 
+// functions :
+// 1) display message :
+const displayMessage = function (message) {
+  document.querySelector(".message").textContent = message;
+};
+
+// 2) manipulate text of number class in HTML doc
+const setNumbetTextContent = function (number) {
+  document.querySelector(".number").textContent = number;
+};
+
+// 3) manipulate background color in css
+const setBackgroundColor = function (color) {
+  document.querySelector("body").style.backgroundColor = color;
+};
+
+// 4) manipulate width of number class style in css
+const setNumberWidth = function (width) {
+  document.querySelector(".number").style.width = width;
+};
+
+// 5) manipulate text content of score class
+const setScoreTextContent = function (score) {
+  document.querySelector(".score").textContent = score;
+};
+
 // get the check button element to add and event listener to start the logic of the game
 document.querySelector(".check").addEventListener("click", function () {
   const guess = Number(document.querySelector(".guess").value);
@@ -16,18 +42,18 @@ document.querySelector(".check").addEventListener("click", function () {
   // game logice , all possible conditions :
   // when there is no input
   if (!guess) {
-    document.querySelector(".message").textContent = "No Number!";
+    displayMessage("No Number!");
   }
 
   // when the guess is correct
   else if (guess === secretNumber) {
-    document.querySelector(".message").textContent = "Correct Number!";
+    displayMessage("Correct Number!");
 
-    document.querySelector(".number").textContent = secretNumber;
+    setNumbetTextContent(secretNumber);
 
-    document.querySelector("body").style.backgroundColor = "#60b347";
+    setBackgroundColor("#60b347");
 
-    document.querySelector(".number").style.width = "30rem";
+    setNumberWidth("30rem");
 
     if (score > highscore) {
       highscore = score;
@@ -38,30 +64,18 @@ document.querySelector(".check").addEventListener("click", function () {
 
   // when the guess is out of range
   else if (guess > 20) {
-    document.querySelector(".message").textContent = "Number out of range!!!";
+    displayMessage("Number out of range!!!");
   }
 
-  // when the guess is too high
-  else if (guess > secretNumber) {
+  // when guess is wrong
+  else if (guess !== secretNumber) {
     if (score > 1) {
-      document.querySelector(".message").textContent = "Too High";
+      displayMessage(guess > secretNumber ? "Too High" : "Too Low");
       score--;
-      document.querySelector(".score").textContent = score;
+      setScoreTextContent(score);
     } else {
-      document.querySelector(".message").textContent = "You lose the game!!!";
-      document.querySelector(".score").textContent = 0;
-    }
-  }
-
-  // when the guess is too low
-  else if (guess < secretNumber) {
-    if (score > 1) {
-      document.querySelector(".message").textContent = "Too Low";
-      score--;
-      document.querySelector(".score").textContent = score;
-    } else {
-      document.querySelector(".message").textContent = "You lose the game!!!";
-      document.querySelector(".score").textContent = 0;
+      displayMessage("You lose the game!!!");
+      setScoreTextContent(0);
     }
   }
 });
@@ -71,15 +85,15 @@ document.querySelector(".again").addEventListener("click", function () {
   secretNumber = Math.trunc(Math.random() * 20) + 1;
   score = 20;
 
-  document.querySelector(".number").textContent = "?";
+  setNumbetTextContent("?");
 
   document.querySelector(".guess").value = "";
 
-  document.querySelector(".message").textContent = "Start guessing...";
+  displayMessage("Start guessing...");
 
-  document.querySelector(".score").textContent = score;
+  setScoreTextContent(score);
 
-  document.querySelector("body").style.backgroundColor = "#222";
+  setBackgroundColor("#222");
 
-  document.querySelector(".number").style.width = "15rem";
+  setNumberWidth("15rem");
 });
